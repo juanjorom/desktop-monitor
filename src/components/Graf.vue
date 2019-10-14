@@ -29,7 +29,10 @@ export default {
         //this.socket.on('sub_alarm', data => this.addInfo(data))
         const options = ({
             data: {
-                columns: this.datos.times
+                columns: [
+                    ['leyenda 1',100,200,120],
+                    ['leyenda 2', 50, 176,139]
+                    ]//this.datos.times
             }
         })
         this.handler.$emit('init',options)
