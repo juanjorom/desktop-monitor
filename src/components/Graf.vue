@@ -1,7 +1,7 @@
 <template>
   <md-card>
       <md-card-content>
-          <vue-c3 :handler="handler"></vue-c3>
+          <vuec3 :handler="handler"></vuec3>
       </md-card-content>
   </md-card>
 </template>
@@ -15,6 +15,20 @@ export default {
     props: {
         datos: Object
     },
+    computed: {
+        options(){
+            console.log(this.datos.times)
+            return {
+                data: {
+                    columns: this.datos.times,
+                    type: 'line'
+                },
+                line: {
+                    connectNull: true
+                }
+            }
+        }
+    },
     data() {
         return {
             handler: new Vue()
@@ -27,15 +41,8 @@ export default {
     },
     mounted(){
         //this.socket.on('sub_alarm', data => this.addInfo(data))
-        const options = ({
-            data: {
-                columns: [
-                    ['leyenda 1',100,200,120],
-                    ['leyenda 2', 50, 176,139]
-                    ]//this.datos.times
-            }
-        })
-        this.handler.$emit('init',options)
+        //this.datos.times
+        this.handler.$emit('init',this.options)
     },
     components: {
         Vuec3
@@ -44,5 +51,4 @@ export default {
 </script>
 
 <style>
-
 </style>

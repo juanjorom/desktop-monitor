@@ -18,7 +18,7 @@
                         <arbolitem :arbol="getArbol" @select="showData"></arbolitem>
                     </md-list>
                 </div>
-
+ 
             </md-app-drawer>
             <md-app-content class="contenedor-app">
                 <md-tabs class="md-primary">
@@ -63,31 +63,6 @@ export default {
         reportRecorrido
     },
     methods:{
-        /*async postToLast(key, cars, host){
-            var ids = []
-            for (const i in cars) {
-                ids.push(cars[i].deviceid)
-            }
-            var respond=null
-            if(cars.length>0){
-                var llave = await axios.get('http://'+host+':12056/api/v1/basic/key?username=SOPORTE&password=admin1')
-                
-                respond = await axios.post('http://'+host+':12056/api/v1/basic/gps/last',{
-                    key: key,
-                    terid: ids,
-                })
-            }
-            return respond.data
-        },
-
-        async showData(cars){
-            this.loading=true
-            
-            this.cars= cars
-            var datos = await this.postToLast(this.tok, this.cars, this.host)
-            console.log(datos);
-            this.loading=false
-        }*/
     }
 }
 </script>

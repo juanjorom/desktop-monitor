@@ -50,6 +50,8 @@ export default {
         async pedir(){
             this.anadir(await this.obtenerPrevio(this.host,this.key,this.cars, this.fechaIni))
             this.socket= io('http://'+this.host+':12056')
+            console.log(this.info);
+            
             this.socket.emit('sub_alarm',{
                 key: this.key,
                 didArray: this.cars,
@@ -59,7 +61,10 @@ export default {
         async obtenerPrevio(host, key, cars, fechaIni){
             var fend = new Date()
             var fehcina= ''+fechaIni.getFullYear()+'-'+(fechaIni.getMonth()+1)+'-'+fechaIni.getDate()
-            var fechafin= fehcina +' '+ fend.getHours()+':'+fend.getMinutes()+":00"
+            var fechafin= fehcina +' '+ ('0' + fend.getHours()).slice(-2) +':'+('0'+fend.getMinutes()).slice(-2)+':'+ ('0' + fend.getSeconds()).slice(-2)
+
+            console.log(fechafin);
+            
             var request= await axios.post('http://'+host+':12056/api/v1/basic/alarm/detail',{
                 key: key,
                 terid: cars,
@@ -88,15 +93,23 @@ export default {
                 }
                 var paradas = []
                 var tiempos = []
+                var vuelt = 0
                 element.forEach(item => {
                     if(item.content.includes("Enter")){
                         paradas.push(item.content.substring(item.content.indexOf(':')+1,item.content.lastIndexOf(',')))
-                        tiempos.push(item.gpstime)
+                        tiempos.push(((item.gpstime.substring(item.gpstime.indexOf(' ')+1)).replace(':','')).replace(/(:\d{2})$/g,''))
                         if(item.content.includes("TERMINAL ATM")){
-                            dat.vueltas.push(paradas)
-                            dat.times.push(tiempos)
-                            paradas= []
-                            tiempos= []
+                            if(tiempos.length>1){
+                                vuelt = vuelt+1
+                                tiempos.reverse()
+                                paradas.reverse()
+                                tiempos.unshift('Vuelta '+vuelt)
+                                paradas.unshift('paradas')
+                                dat.vueltas.push(paradas)
+                                dat.times.push(tiempos)
+                                paradas= []
+                                tiempos= []
+                            }
                         }
                     }
                 })
