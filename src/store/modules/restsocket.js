@@ -1,6 +1,11 @@
+import rutitas from '../../assets/docs/data'
+
+
 const state = {
     info: [],
-    prevdata: []
+    prevdata: [],
+    rutas: rutitas.rutas
+
 }
 
 const getters = {
@@ -9,6 +14,12 @@ const getters = {
     },
     getPrev: state =>{
         return state.prevdata
+    },
+    getDatos: state => {
+        return state.datos
+    },
+    getRuta: state => ruta =>{
+        return state.rutas.find(bus=> bus.name==ruta).paradas
     }
 }
 
@@ -16,6 +27,9 @@ const mutations = {
     addInfo(state,data){
         state.info=data
     },
+    addDatos(state, data){
+        state.datos = data
+    }
 }
 
 const actions = {

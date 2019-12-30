@@ -1,0 +1,42 @@
+{
+
+    "server": [
+        "50.21.176.25"
+    ],
+    "users":[
+        
+    ],
+    "rutas":[
+        {
+            "name": "LA MISION",
+            "paradas": ["ATM", "LAS GLORIAS", "WALMART", "AEROPUERTO", "CENTRAL", "LAS JUNTAS", "JARRETADERAS", "CRUCERO 1", "CRUCERO 2", "VALLE DORADO", "LAGO REAL", "MEZCALES", "SAN CLEMENTE", "PALMA REAL", "SAN VICENTE", "LOS ANGELES", "TERMINAL LA MISION", "LOS ANGELES R", "SAN VICENTE R", "PALMA REAL R", "SAN CLEMENTE R", "MEZCALES R", "LAGO REAL R", "VALLE DORADO R", "JARRETADERAS R", "LAS JUNTAS R", "CENTRAL R", "AEROPUERTO R", "WALMART R", "LAS GLORIAS R", "ATM"]
+        },
+        {
+            "name":"SAN JUAN/VALLE DE BANDERAS",
+            "paradas":["TERMINAL ATM", "LAS GLORIAS", "WALMART", "AEROPUERTO", "CENTRAL", "LAS JUNTAS", "JARRETADERAS", "CRUCERO NUEVO 1", "CRUCERO NUEVO 2", "VALLE DORADO", "LAGO REAL", "MEZCALES", "SAN CLEMENTE DE LIMA", "PALMA REAL", "SAN VICENTE", "EL PROVENIR", "SAN JOSE","GLORIETA DE LOS INIDIOS","TERMINAL VALLE", "GLORIETA DE LOS INIDIOS REGRESO", "SAN JOSE REGRESO", "EL PORVENIR REGRESO", "SAN VICENTE REGRESO", "PALMA REAL REGRESO", "SAN CLEMENTE REGRESO", "MEZCALES REGRESO", "LAGO REAL REGRESO", "VALLE DORADO REGRESO", "JARRETADERAS REGRESO", "LAS JUNTAS REGRESO", "CENTRAL REGRESO", "AEROPUERTO REGRESO", "WALMART REGRESO", "LAS GLORIAS REGRESO", "TERMINAL ATM"]
+        },
+        {
+            "name":"PUNTA DE MITA",
+            "paradas":[]
+        },
+        {
+            "name":"NUEVO VALLARTA",
+            "paradas":[]
+        },
+        {
+            "name":"NUEVO VALLARTA RIU",
+            "paradas": []
+        },
+        {
+            "name":"JARRETADERAS",
+            "paradas": []
+        },
+        {
+            "name":"VALLE DORADO",
+            "paradas": []
+        }
+    ],
+    "unidades": {
+        
+    }
+}

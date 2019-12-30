@@ -29,7 +29,9 @@
                                 </report-recorrido>
                             </div>
                         </md-tab>
-                        <md-tab id="geocercas" md-label="Geocercas"></md-tab>
+                        <md-tab id="geocercas" md-label="Geocercas">
+                            <tabla></tabla>
+                        </md-tab>
                         <md-tab id="conteo" md-label="Conteo"></md-tab>
                     </md-tabs>
             </md-app-content>
@@ -40,6 +42,7 @@
 <script>
 import arbolitem from './Arbolitem';
 import reportRecorrido from './ReportRecorrido'
+import tabla from './Tabla'
 import { mapGetters } from 'vuex';
 
 export default {
@@ -60,7 +63,8 @@ export default {
     },
     components: {
         arbolitem,
-        reportRecorrido
+        reportRecorrido,
+        tabla
     },
     methods:{
     }

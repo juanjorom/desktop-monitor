@@ -1,6 +1,7 @@
 <template>
   <md-card>
-      <md-card-content>
+      <md-card-content class="unico">
+          <span>{{datos.nombre}}</span>
           <vuec3 :handler="handler"></vuec3>
       </md-card-content>
   </md-card>
@@ -17,11 +18,17 @@ export default {
     },
     computed: {
         options(){
-            console.log(this.datos.times)
             return {
                 data: {
+                    labels: true,
                     columns: this.datos.times,
                     type: 'line'
+                },
+                axis: {
+                    x: {
+                        type: "category",
+                        categories: this.datos.ruta
+                    }
                 },
                 line: {
                     connectNull: true
@@ -51,4 +58,5 @@ export default {
 </script>
 
 <style>
+
 </style>

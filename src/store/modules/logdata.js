@@ -1,13 +1,14 @@
 import axios from 'axios'
 
-
 const state= {
     key: null,
     user: null,
     host: null,
     sending: false,
     sucess: false,
-    arbol: null
+    arbol: null,
+    carsRuta: null,
+    password: null
 }
 
 const getters = {
@@ -28,18 +29,41 @@ const getters = {
     },
     getSucess: state => {
         return state.sucess
-    }
+    },
+    getUsersList(){
+        //return users.users.map(el => el.user)
+        return null
+    },
+    getHostList(){
+        return null
+        //return servers.servers
+    },
+    /*getCarsRuta: state => unidad =>{
+        if(state.carsRuta.hasOwnProperty(unidad)){
+            return state.carsRuta[unidad]
+        }else{
+            datos.unidades[unidad]= "SIN RUTA"
+            return state.carsRuta[unidad]
+        }
+    }*/
 }
 
 const mutations = {
     setKey(state, key){
         state.key = key
     },
-    setUser(state, user){
-        state.user = user
+    setUser(state, ojet){
+        /*if(db.get('users').findIndex(el => el.user==ojet.user)<0){
+            db.get('users').push({user: ojet.user, password:ojet.password}).write()
+        }*/
+        state.user=ojet
+
     },
     setHost(state, host){
-        state.host = host
+        /*if(db.get('server').indexOf(host)<0){
+            db.get('server').push(host).write()
+        }*/
+        state.host=host
     },
     setSending(state, sending){
         state.sending= sending
@@ -59,6 +83,13 @@ const actions = {
         if(!verificado){
             alert('Error al logear')
         }else{
+            /*if(form.guardar){
+                commit('setUser', {user:form.user, password: form.password})
+            }else{
+                commit('setUser', {user:form.user, password: ""})
+            }*/
+            commit('setUser', form.user)
+            commit('setHost', form.server)
             var grupos = await dispatch('pedirDatos','groups')
             var cars = await dispatch('pedirDatos','devices')
             if(grupos!=undefined & cars!=undefined){
@@ -118,12 +149,11 @@ const actions = {
             alert(error)
         }
     },
-    async verify({commit}, form){
+    async verify({commit},form ){
         var exito
         try {
             const response =await axios.get('http://'+form.server+':12056/api/v1/basic/key?username='+form.user+'&password='+form.password)
-            commit('setUser', form.user)
-            commit('setHost', form.server)
+            
             commit('setKey', response.data.data.key)
             exito= true
         } catch (error) {

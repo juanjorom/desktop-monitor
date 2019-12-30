@@ -1,13 +1,13 @@
 <template>
     <md-list-item md-expand :class="clase">
         <md-checkbox v-model="selected" disabled>
-            <span class="md-list-item-text">{{arbol.name}}</span>
+            {{arbol.name}}
         </md-checkbox>
         <md-list slot="md-expand">
             <arbolitem v-bind:key="key.id" v-for="key in arbol.hijos" :arbol="key" clase="md-inset" :clear="clear" @select="getCarros"></arbolitem>
             <md-list-item class="md-inset" v-bind:key="car.deviceid" v-for="car in arbol.carros" >
-                <md-checkbox v-model="carros" :value="car.deviceid">
-                    <span class="md-list-item-text" >{{car.carlicence}}</span>
+                <md-checkbox v-model="carros" :value="car">
+                    {{car.carlicence}}
                 </md-checkbox>
             </md-list-item>
         </md-list>
