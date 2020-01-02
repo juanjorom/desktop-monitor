@@ -4,7 +4,6 @@ import logdata from './modules/logdata'
 import carros from './modules/carros'
 import sock from './modules/restsocket'
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({

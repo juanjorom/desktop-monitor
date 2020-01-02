@@ -1,6 +1,8 @@
 import axios from 'axios'
+import servers from '../../assets/docs/servers'
+import idb from '@/api/idb'
 
-const state= {
+const state = {
     key: null,
     user: null,
     host: null,
@@ -8,7 +10,9 @@ const state= {
     sucess: false,
     arbol: null,
     carsRuta: null,
-    password: null
+    password: null,
+    hostList: [],
+    usersList:[],
 }
 
 const getters = {
@@ -30,13 +34,19 @@ const getters = {
     getSucess: state => {
         return state.sucess
     },
-    getUsersList(){
-        //return users.users.map(el => el.user)
-        return null
+    async getUsersList(){
+        let us = await idb.getUsers()
+        console.log(us)
+        return us.map(el => {return el.user})
     },
+
     getHostList(){
-        return null
-        //return servers.servers
+        var aux = Object.keys(servers)
+        var result = []
+        aux.forEach(ele => {
+            result.push(servers[ele])
+        })
+        return result
     },
     /*getCarsRuta: state => unidad =>{
         if(state.carsRuta.hasOwnProperty(unidad)){
@@ -52,17 +62,22 @@ const mutations = {
     setKey(state, key){
         state.key = key
     },
-    setUser(state, ojet){
-        /*if(db.get('users').findIndex(el => el.user==ojet.user)<0){
-            db.get('users').push({user: ojet.user, password:ojet.password}).write()
-        }*/
-        state.user=ojet
-
+    async setUser(state, ojet){
+        await idb.addUser({user:ojet})
+        state.user=ojet.user
     },
     setHost(state, host){
-        /*if(db.get('server').indexOf(host)<0){
-            db.get('server').push(host).write()
-        }*/
+        var aux = Object.keys(servers)
+        var exist = false
+        for (const key in aux) {
+            if(servers[key]==host){
+                exist=true
+                break
+            }
+        }
+        if(!exist){
+
+        }
         state.host=host
     },
     setSending(state, sending){
@@ -83,11 +98,6 @@ const actions = {
         if(!verificado){
             alert('Error al logear')
         }else{
-            /*if(form.guardar){
-                commit('setUser', {user:form.user, password: form.password})
-            }else{
-                commit('setUser', {user:form.user, password: ""})
-            }*/
             commit('setUser', form.user)
             commit('setHost', form.server)
             var grupos = await dispatch('pedirDatos','groups')
@@ -101,7 +111,7 @@ const actions = {
             }
         }
         commit('setSending', false)
-
+        
     },
     async genArbol({dispatch}, variables){
         var result = []
@@ -160,7 +170,8 @@ const actions = {
             exito = false
         }
         return exito
-    }
+    },
+
 }
 
 
