@@ -1,6 +1,6 @@
 <template>
   <div class="md-layout md-gutter md-alignment-center-center">
-      <div class="md-layout-item md-size-50">
+      <div class="md-layout-item md-size-33">
           <login>
           </login>
       </div>
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style>
-
+.md-layout-item{
+    margin-top: 10vh;
+}
 </style>

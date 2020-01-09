@@ -40,7 +40,8 @@ export default {
             cars: 'carros/getCarsSelected',
             key: 'logdata/getKey',
             host: 'logdata/getHost',
-            getRuta: 'sock/getRuta'
+            getRuta: 'sock/getRuta',
+            getArbol: 'carros/getArbolById'
         }),
 
     },
@@ -71,12 +72,13 @@ export default {
         },
         async obtenerPrevio(host, key, cars, fechaIni){
             var fend = new Date()
-            var fehcina= ''+fechaIni.getFullYear()+'-'+(fechaIni.getMonth()+1)+'-'+fechaIni.getDate()
+            var fehcina= ''+fechaIni.getFullYear()+'-'+('0'+fechaIni.getMonth()+1).slice(-2)+'-'+('0'+fechaIni.getDate()).slice(-2)
             var fechafin= fehcina +' '+ ('0' + fend.getHours()).slice(-2) +':'+('0'+fend.getMinutes()).slice(-2)+':'+ ('0' + fend.getSeconds()).slice(-2)
             var carritos = []
             cars.forEach(it =>{
                 carritos.push(it.deviceid)
             })
+
             var request= await axios.post('http://'+host+':12056/api/v1/basic/alarm/detail',{
                 key: key,
                 terid: carritos,
@@ -85,6 +87,7 @@ export default {
                 endtime: fechafin
             })
             var respuest= []
+            
             carritos.forEach( element => {
                 var filtrado = request.data.data.filter(item => item.terid == element) 
                 if(filtrado.length>0){
@@ -92,6 +95,7 @@ export default {
                 }
             });
             var organizado = this.organizarRuta(respuest, cars)
+            
             return organizado
         },
 
@@ -104,14 +108,13 @@ export default {
                     vueltas: [],
                     times: []
                 }
-                
+                var arbol= this.getArbol(dat.device)
                 var paradas = []
                 var tiempos = []
                 var vuelt = 0
-                var ruta =  this.getRuta("LA MISION")
+                var ruta =  this.getRuta(arbol)
                 var llen = Array.from(ruta)
                 llen.fill(null)
-                console.log(element)
                 element.forEach(item => {
                     if(item.content.includes("Enter")){
                         var lug= (item.content.substring(item.content.indexOf(':')+1,item.content.lastIndexOf(',')))
@@ -120,7 +123,6 @@ export default {
                         if(lug=="ATM"){
                             llen[ruta.length-1]=time
                             paradas.push(lug)
-                            console.log(paradas)
                             if(paradas.length>3){
                                 vuelt = vuelt+1
                                 tiempos.push('Vuelta '+vuelt)

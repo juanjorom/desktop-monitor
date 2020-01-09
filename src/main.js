@@ -6,22 +6,9 @@ import 'vue-material/dist/theme/default-dark.css'
 import VueMaterial from 'vue-material'
 import store from './store'
 import router from './router'
-//import VueSoketIO from 'vue-socket.io'
-//import SocketIO from 'socket.io-client'
+
 
 Vue.config.productionTip = false
-
-//export var socket = SocketIO('http://50.21.176.25:12056')
-
-/*Vue.use(new VueSoketIO({
-  debug: true,
-  connection: socket,
-  vuex: {
-    store,
-    actionPrefix: "A_SOCKET_",
-    mutationPrefix: "M_SOCKET_"
-  }
-}))*/
 
 Vue.use(VueMaterial)
 /*Vue.use(MdButton)

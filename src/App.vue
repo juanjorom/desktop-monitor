@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div class="page-container md-alignment-center">
       <router-view></router-view>
-    </div>
   </div>
 </template>
 
@@ -22,7 +20,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 20px;
-  
+  height: 100vh;
+  max-width: 100vw;
 }
 </style>

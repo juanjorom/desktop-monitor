@@ -1,11 +1,9 @@
-import rutitas from '../../assets/docs/data'
-
+import rutitas from '@/assets/docs/data'
 
 const state = {
     info: [],
     prevdata: [],
     rutas: rutitas.rutas
-
 }
 
 const getters = {

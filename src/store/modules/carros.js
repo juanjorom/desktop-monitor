@@ -1,13 +1,21 @@
 const state ={
-    carsSelected: []
+    carsSelected: [],
+    arboles: [],
+    carros: []
 }
 
 
 const getters = {
     getCarsSelected: state =>{
         return state.carsSelected
+    },
+    getCarById: state=> id => {
+        return state.carros.find(el => el.deviceid==id)
+    },
+    getArbolById: state => id =>{
+        let carro = state.carros.find(el => el.deviceid==id)
+        return state.arboles.find(el => el.groupid==carro.groupid).groupname
     }
-
 }
 
 const mutations = {
@@ -17,6 +25,12 @@ const mutations = {
     },
     popCar(state, index){
         state.carsSelected.splice(index, 1)
+    },
+    setCarros(state, carros){
+        state.carros = carros
+    },
+    setArboles(state, arboles){
+        state.arboles = arboles
     }
 }
 

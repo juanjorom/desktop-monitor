@@ -1,6 +1,7 @@
 import axios from 'axios'
-import servers from '../../assets/docs/servers'
-import idb from '@/api/idb'
+//import servers from '../../assets/docs/servers'
+//import idb from '@/api/idb'
+//import jdb from '@/api/jsondb'
 
 const state = {
     key: null,
@@ -9,7 +10,6 @@ const state = {
     sending: false,
     sucess: false,
     arbol: null,
-    carsRuta: null,
     password: null,
     hostList: [],
     usersList:[],
@@ -34,19 +34,21 @@ const getters = {
     getSucess: state => {
         return state.sucess
     },
-    async getUsersList(){
-        let us = await idb.getUsers()
+    getUsersList(){
+        /*let us = await idb.getUsers()
         console.log(us)
-        return us.map(el => {return el.user})
+        return us.map(el => {return el.user})*/
+        return []
     },
 
     getHostList(){
-        var aux = Object.keys(servers)
+        /*var aux = Object.keys(servers)
         var result = []
         aux.forEach(ele => {
             result.push(servers[ele])
         })
-        return result
+        return result*/
+        return []
     },
     /*getCarsRuta: state => unidad =>{
         if(state.carsRuta.hasOwnProperty(unidad)){
@@ -62,12 +64,13 @@ const mutations = {
     setKey(state, key){
         state.key = key
     },
-    async setUser(state, ojet){
-        await idb.addUser({user:ojet})
+    setUser(state, ojet){
+        //await idb.addUser({user:ojet})
+        //jdb.writeUser(ojet)
         state.user=ojet.user
     },
     setHost(state, host){
-        var aux = Object.keys(servers)
+        /*var aux = Object.keys(servers)
         var exist = false
         for (const key in aux) {
             if(servers[key]==host){
@@ -77,7 +80,7 @@ const mutations = {
         }
         if(!exist){
 
-        }
+        }*/
         state.host=host
     },
     setSending(state, sending){
@@ -92,7 +95,7 @@ const mutations = {
 }
 
 const actions = {
-    async log({commit, dispatch},form){
+    async log({commit, dispatch, rootState},form){
         commit('setSending', true)
         var verificado = await dispatch('verify',form)
         if(!verificado){
@@ -102,6 +105,8 @@ const actions = {
             commit('setHost', form.server)
             var grupos = await dispatch('pedirDatos','groups')
             var cars = await dispatch('pedirDatos','devices')
+            rootState.carros.carros = cars.data.data
+            rootState.carros.arboles = grupos.data.data
             if(grupos!=undefined & cars!=undefined){
                 commit('setArbol', await dispatch('obtenerArbol',{
                      raiz:grupos.data.data[0].groupid, 
