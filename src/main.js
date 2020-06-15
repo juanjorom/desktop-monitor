@@ -9,7 +9,6 @@ import router from './router'
 
 
 Vue.config.productionTip = false
-
 Vue.use(VueMaterial)
 /*Vue.use(MdButton)
 Vue.use(MdContent)

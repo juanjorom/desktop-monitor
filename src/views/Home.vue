@@ -1,11 +1,18 @@
 <template>
-    <md-app md-mode="reveal">
-        <md-app-toolbar class="md-primary">
+    <md-app md-waterfall md-mode="fixed-last">
+        <md-app-toolbar class="md-large md-dense md-primary">
             <div class="md-toolbar-row">
                 <md-button class="md-icon-button" @click="menuVisible=!menuVisible">
                     <md-icon>menu</md-icon>
                 </md-button>
                 <span class="md-title">Bienvenido {{getUser}}</span>
+            </div>
+            <div class="md-toolbar-row">
+                <md-tabs class="md-primary" md-async-route>
+                    <md-tab id="home" md-label="Inicio" to="real"></md-tab>
+                    <md-tab id="detail" md-label="Detalles" to="detail"></md-tab>
+                    <md-tab id="list" md-label="Lista"></md-tab>
+                </md-tabs>
             </div>
         </md-app-toolbar>
         <md-app-drawer :md-active.sync="menuVisible">
@@ -14,54 +21,66 @@
             </md-toolbar>
             <div class="list">
                 <md-list>
-                    <arbolitem :arbol="getArbol" @select="showData"></arbolitem>
+                    <arbolitem :arbol="arbol" @select="showData"></arbolitem>
                 </md-list>
             </div>
 
         </md-app-drawer>
         <md-app-content class="contenedor-app">
-            <md-tabs class="md-primary">
-                    <md-tab id="recorrido" md-label="Recorrido">
-                        <md-progress-spinner v-if="loading" md-mode="indeterminate" :md-size="400" :md-stroke="15"></md-progress-spinner>
-                        <div v-else>
-                            <report-recorrido >
-                            </report-recorrido>
-                        </div>
-                    </md-tab>
-                    <md-tab id="geocercas" md-label="Geocercas">
-                        <tabla></tabla>
-                    </md-tab>
-                    <md-tab id="conteo" md-label="Conteo"></md-tab>
-                </md-tabs>
+            <router-view></router-view>
         </md-app-content>
     </md-app>
 </template>
 
 <script>
 import arbolitem from '@/components/Arbolitem'
-import reportRecorrido from '@/components/ReportRecorrido'
-import tabla from '@/components/Tabla'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import io from 'socket.io-client'
 export default {
     data: ()=>({
-        cars: [],
         loading: false,
-        menuVisible: false
+        menuVisible: false,
+        socket: null
     }),
     
+    created(){
+        this.iniciar()
+    },
     computed: {
-        ...mapGetters('logdata',[
-            'getArbol',
-            'getHost',
-            'getKey',
-            'getUser'
-        ])
+        ...mapGetters({
+            cars: 'carros/getAllIds',
+            key: 'logdata/getKey',
+            host: 'logdata/getHost',
+            getRuta: 'sock/getRuta',
+            getArbol: 'carros/getArbolById',
+            arbol: 'logdata/getArbol',
+            getUser: 'logdata/getUser',
+            getPosition: 'sock/getPosition'
+        })
+    },
+    methods: {
+        ...mapMutations({
+            llenar: 'sock/addCarPosition',
+            actualizar: 'sock/actualizarPosition'
+        }),
+       iniciar(){
+            //console.log(this.getPosition)
+            this.socket= io('http://'+this.host+':12056')
+            this.socket.emit('sub_alarm',{
+                key: this.key,
+                didArray: this.cars,
+                alarmType: [18]
+            })
+            this.socket.on('sub_alarm', (data)=>{
+                console.log(data)
+                this.actualizar(data)
+            })
+       }
     },
     components: {
         arbolitem,
-        reportRecorrido,
-        tabla
     }
+
 }
 </script>
 

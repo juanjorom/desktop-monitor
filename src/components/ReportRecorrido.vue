@@ -8,9 +8,6 @@
         <md-content>
             <md-datepicker v-model="fechaIni">
             </md-datepicker>
-            <md-button @click="pedir">
-                Crear
-            </md-button>
             <div v-for="elemento in info" :key="elemento">
                 <graf :datos="elemento"></graf>
             </div>
@@ -20,7 +17,6 @@
 
 <script>
 import { mapGetters, mapMutations, } from 'vuex';
-import io from 'socket.io-client'
 import graf from './Graf'
 import axios from 'axios'
 
@@ -33,7 +29,17 @@ export default {
             fechaIni: new Date(),
         }
     },
-
+    created(){
+        this.pedir()
+    },
+    watch: {
+        fechaIni(){
+            this.pedir()
+        },
+        cars() {
+            this.pedir()
+        }
+    },
     computed: {
         ...mapGetters({
             info: 'sock/getInfo',
@@ -41,12 +47,11 @@ export default {
             key: 'logdata/getKey',
             host: 'logdata/getHost',
             getRuta: 'sock/getRuta',
-            getArbol: 'carros/getArbolById'
+            getArbol: 'carros/getArbolById',
         }),
-
     },
     methods: {
-        ...mapMutations({
+         ...mapMutations({
             anadir: 'sock/addInfo',
             agregar: 'sock/addDatos',
         }),
@@ -54,21 +59,12 @@ export default {
             this.agregar(data)
         },
         async pedir(){
+            console.log("si me ejecute xd")
             var carritos = []
             this.cars.forEach(it =>{
                 carritos.push(it.deviceid)
             })
             this.anadir(await this.obtenerPrevio(this.host,this.key,this.cars, this.fechaIni))
-            this.socket= io('http://'+this.host+':12056')
-            
-            this.socket.on('sub_alarm', (data)=>{
-                this.darData(data)
-            })
-            this.socket.emit('sub_alarm',{
-                key: this.key,
-                didArray: carritos,
-                alarmType: [18]
-            })
         },
         async obtenerPrevio(host, key, cars, fechaIni){
             var fend = new Date()
@@ -149,6 +145,7 @@ export default {
                     var buscado = carros.findIndex(busc=> busc.deviceid==dat.device)
                     dat.nombre= carros[buscado].carlicence
                     dat.ruta = ruta
+                    dat.id = "diagrama-"+ carros[buscado].groupid
                     conjunt.push(dat)
                 }
             });

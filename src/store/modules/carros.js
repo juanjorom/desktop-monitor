@@ -12,9 +12,19 @@ const getters = {
     getCarById: state=> id => {
         return state.carros.find(el => el.deviceid==id)
     },
+    getCarsbyArbol: state => id =>{
+        return state.carros.filter(el => el.groupid==id)
+    },
     getArbolById: state => id =>{
         let carro = state.carros.find(el => el.deviceid==id)
         return state.arboles.find(el => el.groupid==carro.groupid).groupname
+    },
+    getAllIds: state =>{
+        return state.carros.map(x => x.deviceid)
+    },
+    getAllArboles: state =>{
+        var ids= state.carros.map(x => x.groupid)
+        return state.arboles.filter(x => ids.find(elem => elem == x.groupid))
     }
 }
 
